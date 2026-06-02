@@ -3,172 +3,202 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  Truck,
-  ShieldCheck,
-  Star,
-  ArrowRight,
-  Leaf,
-  Clock,
-} from "lucide-react";
+import { ArrowRight, Leaf, Clock, Truck, Percent } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { categories } from "@/lib/data/categories";
 import { staggerContainer, staggerItem, EASE } from "@/lib/motion";
-
-const stats = [
-  { value: "50k+", label: "Happy Families" },
-  { value: "1,200+", label: "Fresh Products" },
-  { value: "4.9★", label: "Avg. Rating" },
-];
+import { cn } from "@/lib/utils";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-secondary/40">
-      {/* decorative blobs */}
-      <div className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full bg-primary/20 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-32 right-0 h-96 w-96 rounded-full bg-orange-300/20 blur-3xl" />
-
-      <div className="container relative grid items-center gap-12 py-16 lg:grid-cols-2 lg:py-24">
-        {/* Copy */}
+    <section className="bg-background">
+      <div className="container pt-6 lg:pt-8">
+        {/* Category quick strip */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate="show"
-          className="relative z-10"
+          className="no-scrollbar -mx-5 mb-5 flex gap-3 overflow-x-auto px-5 pb-1 sm:mx-0 sm:px-0"
         >
-          <motion.span
-            variants={staggerItem}
-            className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary-soft px-4 py-1.5 text-sm font-semibold text-primary"
-          >
-            <Leaf className="h-4 w-4" /> 100% Certified Organic & Farm Fresh
-          </motion.span>
-
-          <motion.h1
-            variants={staggerItem}
-            className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl"
-          >
-            Farm Fresh
-            <br />
-            <span className="text-gradient">Delivered Daily</span>
-          </motion.h1>
-
-          <motion.p
-            variants={staggerItem}
-            className="mt-5 max-w-lg text-lg text-muted-foreground"
-          >
-            Hand-picked fruits, crisp vegetables and premium organic essentials —
-            sourced from local farms and delivered to your door, fresh the same
-            day.
-          </motion.p>
-
-          {/* Same-day delivery badge */}
-          <motion.div
-            variants={staggerItem}
-            className="mt-6 inline-flex items-center gap-3 rounded-2xl glass-card px-4 py-3 shadow-soft"
-          >
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-              <Clock className="h-5 w-5" />
-            </span>
-            <div>
-              <p className="text-sm font-bold">Same-Day Delivery</p>
-              <p className="text-xs text-muted-foreground">
-                Order before 4 PM · arrives by evening
-              </p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            variants={staggerItem}
-            className="mt-8 flex flex-wrap items-center gap-3"
-          >
-            <Button asChild size="lg">
-              <Link href="/shop">
-                Shop Now <ArrowRight className="h-4 w-4" />
+          {categories.map((c) => (
+            <motion.div key={c.id} variants={staggerItem}>
+              <Link
+                href={`/shop?category=${c.slug}`}
+                className="group flex min-w-[150px] items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 shadow-soft transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-soft-lg"
+              >
+                <span
+                  className={cn(
+                    "flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br text-xl",
+                    c.accent,
+                  )}
+                >
+                  {c.icon}
+                </span>
+                <span className="leading-tight">
+                  <span className="block text-sm font-semibold">{c.name}</span>
+                  <span className="block text-xs text-muted-foreground">
+                    {c.productCount} items
+                  </span>
+                </span>
               </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link href="/#subscriptions">View Subscriptions</Link>
-            </Button>
-          </motion.div>
-
-          {/* stats */}
-          <motion.div
-            variants={staggerItem}
-            className="mt-10 flex divide-x divide-border"
-          >
-            {stats.map((s) => (
-              <div key={s.label} className="px-5 first:pl-0">
-                <p className="font-display text-2xl font-bold">{s.value}</p>
-                <p className="text-xs text-muted-foreground">{s.label}</p>
-              </div>
-            ))}
-          </motion.div>
+            </motion.div>
+          ))}
         </motion.div>
 
-        {/* Visual */}
-        <div className="relative">
+        {/* Bento hero grid */}
+        <div className="grid gap-4 lg:grid-cols-3 lg:gap-5">
+          {/* Main promo card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, rotate: 2 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ duration: 0.8, ease: EASE }}
-            className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[2rem] shadow-soft-lg"
-          >
-            <Image
-              src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=900&q=80&auto=format&fit=crop"
-              alt="Fresh produce basket"
-              fill
-              priority
-              sizes="(max-width:1024px) 100vw, 480px"
-              className="object-cover"
-            />
-          </motion.div>
-
-          {/* floating card: free delivery */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.6, ease: EASE }}
-            className="absolute -left-2 top-10 flex items-center gap-3 rounded-2xl glass-card p-3 shadow-soft-lg sm:left-0 sm:top-16"
+            transition={{ duration: 0.6, ease: EASE }}
+            className="relative overflow-hidden rounded-[2rem] border border-border bg-gradient-to-br from-primary/15 via-secondary to-background p-7 shadow-soft sm:p-10 lg:col-span-2"
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-success text-success-foreground">
-              <Truck className="h-5 w-5" />
-            </span>
-            <div>
-              <p className="text-xs font-bold">Free Delivery</p>
-              <p className="text-[11px] text-muted-foreground">
-                On orders ₹499+
+            <div className="pointer-events-none absolute -right-16 -top-16 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
+            <div className="relative z-10 max-w-md">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/70 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary backdrop-blur-md dark:bg-white/10">
+                <Leaf className="h-3.5 w-3.5" /> 100% Farm Fresh Food
+              </span>
+
+              <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+                Fresh Organic
+                <br />
+                <span className="text-gradient">Food For All</span>
+              </h1>
+
+              <p className="mt-4 max-w-sm text-sm text-muted-foreground sm:text-base">
+                Hand-picked fruits, crisp veggies & organic essentials —
+                delivered to your door, fresh the same day.
               </p>
+
+              <div className="mt-5 flex items-end gap-2">
+                <span className="text-sm text-muted-foreground">Starting at</span>
+                <span className="font-display text-3xl font-bold text-foreground">
+                  ₹59
+                </span>
+              </div>
+
+              <Button asChild size="lg" className="mt-6">
+                <Link href="/shop">
+                  Shop Now <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
             </div>
+
+            {/* Product image */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, x: 30 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ duration: 0.7, ease: EASE, delay: 0.15 }}
+              className="pointer-events-none absolute -bottom-6 -right-4 hidden h-64 w-64 sm:block lg:h-80 lg:w-80"
+            >
+              <div className="relative h-full w-full">
+                <Image
+                  src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=700&q=80&auto=format&fit=crop"
+                  alt="Fresh organic produce"
+                  fill
+                  priority
+                  sizes="320px"
+                  className="animate-float rounded-[1.75rem] object-cover shadow-soft-lg"
+                />
+              </div>
+            </motion.div>
           </motion.div>
 
-          {/* floating card: rating */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.6, ease: EASE }}
-            className="absolute -right-2 bottom-20 flex items-center gap-3 rounded-2xl glass-card p-3 shadow-soft-lg sm:right-0"
-          >
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-400 text-accent">
-              <Star className="h-5 w-5 fill-current" />
-            </span>
-            <div>
-              <p className="text-xs font-bold">4.9 / 5 Rating</p>
-              <p className="text-[11px] text-muted-foreground">
-                12,400+ reviews
-              </p>
-            </div>
-          </motion.div>
+          {/* Right column */}
+          <div className="flex flex-col gap-4 lg:gap-5">
+            {/* Wide promo */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
+              className="relative flex-1 overflow-hidden rounded-[1.75rem] bg-accent p-6 text-accent-foreground"
+            >
+              <div className="relative z-10 max-w-[60%]">
+                <span className="text-xs font-semibold uppercase tracking-wider text-primary">
+                  Cold-Pressed
+                </span>
+                <h3 className="mt-1 font-display text-2xl font-bold leading-tight">
+                  Fresh Juices
+                </h3>
+                <p className="mt-2 text-sm text-accent-foreground/70">
+                  Only{" "}
+                  <span className="font-bold text-primary">₹180</span>
+                </p>
+                <Link
+                  href="/shop?category=beverages"
+                  className="mt-4 inline-flex items-center gap-1 rounded-full bg-primary px-4 py-2 text-xs font-bold text-primary-foreground transition hover:brightness-105"
+                >
+                  Shop Now <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+              <div className="absolute -bottom-4 -right-3 h-40 w-40">
+                <Image
+                  src="https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=400&q=80&auto=format&fit=crop"
+                  alt="Fresh juice"
+                  fill
+                  sizes="160px"
+                  className="rounded-2xl object-cover"
+                />
+              </div>
+            </motion.div>
 
-          {/* floating card: quality */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1, duration: 0.6, ease: EASE }}
-            className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full bg-accent px-4 py-2 text-accent-foreground shadow-soft-lg"
-          >
-            <ShieldCheck className="h-4 w-4 text-primary" />
-            <span className="text-xs font-semibold">Quality Guaranteed</span>
-          </motion.div>
+            {/* Two small cards */}
+            <div className="grid grid-cols-2 gap-4 lg:gap-5">
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
+                className="relative overflow-hidden rounded-[1.5rem] bg-secondary p-5"
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                  <Truck className="h-5 w-5" />
+                </span>
+                <h4 className="mt-3 font-display text-base font-bold leading-tight">
+                  Free Delivery
+                </h4>
+                <p className="text-xs text-muted-foreground">On orders ₹499+</p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: EASE, delay: 0.28 }}
+                className="relative overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-primary to-orange-500 p-5 text-white"
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/25 backdrop-blur-md">
+                  <Percent className="h-5 w-5" />
+                </span>
+                <h4 className="mt-3 font-display text-base font-bold leading-tight">
+                  Up to 40% OFF
+                </h4>
+                <p className="text-xs text-white/80">On organic picks</p>
+              </motion.div>
+            </div>
+          </div>
         </div>
+
+        {/* Trust strip */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="mt-5 grid grid-cols-2 gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft sm:grid-cols-4"
+        >
+          {[
+            { Icon: Leaf, label: "Certified Organic" },
+            { Icon: Truck, label: "Same-Day Delivery" },
+            { Icon: Clock, label: "Order before 4 PM" },
+            { Icon: Percent, label: "Best Price Promise" },
+          ].map((t) => (
+            <div key={t.label} className="flex items-center gap-2.5">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <t.Icon className="h-4 w-4" />
+              </span>
+              <span className="text-xs font-semibold sm:text-sm">{t.label}</span>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
