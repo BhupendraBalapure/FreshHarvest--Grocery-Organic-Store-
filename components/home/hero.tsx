@@ -18,25 +18,27 @@ export function Hero() {
           variants={staggerContainer}
           initial="hidden"
           animate="show"
-          className="no-scrollbar -mx-5 mb-5 flex gap-3 overflow-x-auto px-5 pb-1 sm:mx-0 sm:px-0"
+          className="mb-5 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-8"
         >
           {categories.map((c) => (
             <motion.div key={c.id} variants={staggerItem}>
               <Link
                 href={`/shop?category=${c.slug}`}
-                className="group flex min-w-[150px] items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 shadow-soft transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-soft-lg"
+                className="group flex h-[72px] items-center gap-3 rounded-2xl border border-border bg-card px-3 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:bg-primary-soft/60 hover:shadow-soft-lg"
               >
                 <span
                   className={cn(
-                    "flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br text-xl",
+                    "grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br text-xl ring-1 ring-inset ring-black/5 transition-transform duration-300 group-hover:scale-110 dark:ring-white/10",
                     c.accent,
                   )}
                 >
                   {c.icon}
                 </span>
-                <span className="leading-tight">
-                  <span className="block text-sm font-semibold">{c.name}</span>
-                  <span className="block text-xs text-muted-foreground">
+                <span className="min-w-0 leading-tight">
+                  <span className="line-clamp-2 text-[13px] font-semibold">
+                    {c.name}
+                  </span>
+                  <span className="mt-0.5 block text-xs text-muted-foreground">
                     {c.productCount} items
                   </span>
                 </span>
