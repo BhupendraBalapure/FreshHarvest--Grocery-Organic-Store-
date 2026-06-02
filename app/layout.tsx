@@ -2,9 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { CartDrawer } from "@/components/layout/cart-drawer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -73,12 +70,7 @@ export default function RootLayout({
         className={`${inter.variable} ${sora.variable} font-sans`}
         suppressHydrationWarning
       >
-        <Providers>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-          <CartDrawer />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
