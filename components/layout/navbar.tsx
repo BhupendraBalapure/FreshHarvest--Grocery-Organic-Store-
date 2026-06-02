@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  Search,
   Heart,
   ShoppingBag,
   User,
@@ -23,6 +22,7 @@ import { useWishlist } from "@/store/wishlist";
 import { useUI } from "@/store/ui";
 import { useMounted } from "@/hooks/use-mounted";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { SearchBar } from "@/components/layout/search-bar";
 import { Button } from "@/components/ui/button";
 
 const navLinks = [
@@ -155,17 +155,7 @@ export function Navbar() {
 
           {/* Search */}
           <div className="hidden flex-1 md:block">
-            <form
-              action="/shop"
-              className="group relative mx-auto max-w-xl"
-            >
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <input
-                name="q"
-                placeholder="Search for fresh produce, dairy, snacks…"
-                className="h-11 w-full rounded-full border border-border bg-secondary/50 pl-11 pr-4 text-sm outline-none transition-all focus:border-primary focus:bg-background focus:ring-2 focus:ring-primary/20"
-              />
-            </form>
+            <SearchBar />
           </div>
 
           {/* Nav links */}
@@ -265,14 +255,12 @@ function MobileMenu({
               </button>
             </div>
 
-            <form action="/shop" className="relative mb-6">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <input
-                name="q"
+            <div className="mb-6">
+              <SearchBar
                 placeholder="Search products…"
-                className="h-11 w-full rounded-full border border-border bg-secondary/50 pl-11 pr-4 text-sm outline-none"
+                onNavigate={onClose}
               />
-            </form>
+            </div>
 
             <div className="mb-6 flex flex-col gap-1">
               {navLinks.map((l) => (
