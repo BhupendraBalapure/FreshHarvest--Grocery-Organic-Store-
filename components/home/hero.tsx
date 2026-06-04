@@ -5,6 +5,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Leaf, Clock, Truck, Percent } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BannerCarousel } from "@/components/home/banner-carousel";
+import { PromoCarousel } from "@/components/home/promo-carousel";
 import { categories } from "@/lib/data/categories";
 import { staggerContainer, staggerItem, EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -12,13 +14,16 @@ import { cn } from "@/lib/utils";
 export function Hero() {
   return (
     <section className="bg-background">
-      <div className="container pt-6 lg:pt-8">
-        {/* Category quick strip */}
+      <div className="container flex flex-col gap-5 pt-6 lg:pt-8">
+        {/* Mobile-only promo carousel (app-style hero) */}
+        <PromoCarousel className="order-1 lg:hidden" />
+
+        {/* Category quick strip — sits below the banner on mobile, above on desktop */}
         <motion.div
           variants={staggerContainer}
           initial="hidden"
           animate="show"
-          className="mb-5 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-8"
+          className="order-2 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:order-1 xl:grid-cols-8"
         >
           {categories.map((c) => (
             <motion.div key={c.id} variants={staggerItem}>
@@ -47,8 +52,8 @@ export function Hero() {
           ))}
         </motion.div>
 
-        {/* Bento hero grid */}
-        <div className="grid gap-4 lg:grid-cols-3 lg:gap-5">
+        {/* Bento hero grid — desktop only (mobile uses the subscription banner above) */}
+        <div className="order-4 hidden gap-4 lg:order-2 lg:grid lg:grid-cols-3 lg:gap-5">
           {/* Main promo card */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -87,23 +92,14 @@ export function Hero() {
               </Button>
             </div>
 
-            {/* Product image */}
+            {/* Product image carousel — block below text on mobile, floating on sm+ */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, x: 30 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.7, ease: EASE, delay: 0.15 }}
-              className="pointer-events-none absolute -bottom-6 -right-4 hidden h-64 w-64 sm:block lg:h-80 lg:w-80"
+              className="relative z-10 mt-7 sm:absolute sm:-bottom-6 sm:-right-4 sm:z-0 sm:mt-0 lg:-bottom-8"
             >
-              <div className="relative h-full w-full">
-                <Image
-                  src="https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=700&q=80&auto=format&fit=crop"
-                  alt="Fresh organic produce"
-                  fill
-                  priority
-                  sizes="320px"
-                  className="animate-float rounded-[1.75rem] object-cover shadow-soft-lg"
-                />
-              </div>
+              <BannerCarousel className="h-44 w-full sm:h-64 sm:w-64 lg:h-80 lg:w-80" />
             </motion.div>
           </motion.div>
 
@@ -185,7 +181,7 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="mt-5 grid grid-cols-2 gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft sm:grid-cols-4"
+          className="order-3 grid grid-cols-2 gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft sm:grid-cols-4"
         >
           {[
             { Icon: Leaf, label: "Certified Organic" },

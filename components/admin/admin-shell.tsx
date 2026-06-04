@@ -13,7 +13,6 @@ import {
   Users,
   Truck,
   BarChart3,
-  Leaf,
   Search,
   Bell,
   Menu,
@@ -24,6 +23,7 @@ import {
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { LogoMark } from "@/components/brand/logo";
 import { useAuth } from "@/store/auth";
 
 const nav = [
@@ -54,10 +54,8 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   const SidebarContent = (
     <div className="flex h-full flex-col">
-      <Link href="/admin" className="flex items-center gap-2 px-5 py-5">
-        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-glow-sm">
-          <Leaf className="h-5 w-5" />
-        </span>
+      <Link href="/admin" className="flex items-center gap-2.5 px-5 py-5">
+        <LogoMark className="h-10 w-10" />
         <div className="leading-tight">
           <span className="block font-display text-lg font-bold">
             Fresh<span className="text-primary">Harvest</span>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -23,6 +24,7 @@ import { useUI } from "@/store/ui";
 import { useMounted } from "@/hooks/use-mounted";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { SearchBar } from "@/components/layout/search-bar";
+import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 
 const navLinks = [
@@ -64,7 +66,7 @@ export function Navbar() {
   return (
     <>
       {/* Top announcement bar */}
-      <div className="hidden bg-accent text-accent-foreground sm:block">
+      <div className="hidden bg-accent text-accent-foreground lg:block">
         <div className="container flex h-9 items-center justify-between text-xs">
           <span className="flex items-center gap-1.5">
             <Leaf className="h-3.5 w-3.5 text-primary" />
@@ -92,15 +94,60 @@ export function Navbar() {
             : "bg-background",
         )}
       >
-        <div className="container flex h-16 items-center gap-3 lg:h-20 lg:gap-6">
+        <div className="container">
+          {/* Mobile top bar — delivery header (app-style) */}
+          <div className="flex h-14 items-center gap-2.5 lg:hidden">
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Menu"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-foreground transition-colors hover:bg-secondary"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+
+            <button type="button" className="flex min-w-0 items-center gap-1.5 text-left">
+              <MapPin className="h-5 w-5 shrink-0 text-primary" />
+              <span className="min-w-0 leading-tight">
+                <span className="block text-[11px] text-muted-foreground">
+                  Delivery to
+                </span>
+                <span className="flex items-center gap-1 text-sm font-bold">
+                  <span className="truncate">Mumbai 400001</span>
+                  <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                </span>
+              </span>
+            </button>
+
+            <div className="ml-auto flex items-center gap-2">
+              <button
+                onClick={openCart}
+                aria-label="Cart"
+                className="relative flex h-10 w-10 items-center justify-center rounded-full bg-green-600 text-white shadow-soft transition-colors hover:bg-green-700"
+              >
+                <ShoppingBag className="h-5 w-5" />
+                {mounted && <CountBadge count={cartCount} />}
+              </button>
+              <Link
+                href="/dashboard"
+                aria-label="Account"
+                className="relative h-9 w-9 shrink-0 overflow-hidden rounded-full ring-2 ring-border"
+              >
+                <Image
+                  src="https://i.pravatar.cc/80?img=12"
+                  alt="Account"
+                  fill
+                  sizes="36px"
+                  className="object-cover"
+                />
+              </Link>
+            </div>
+          </div>
+
+          {/* Desktop bar */}
+          <div className="hidden h-16 items-center gap-3 lg:flex lg:h-20 lg:gap-6">
           {/* Logo */}
-          <Link href="/" className="flex shrink-0 items-center gap-2">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-glow-sm">
-              <Leaf className="h-5 w-5" />
-            </span>
-            <span className="font-display text-xl font-bold tracking-tight">
-              Fresh<span className="text-primary">Harvest</span>
-            </span>
+          <Link href="/" className="shrink-0">
+            <Logo className="h-9 lg:h-11" priority />
           </Link>
 
           {/* Categories dropdown */}
@@ -209,6 +256,12 @@ export function Navbar() {
               <Menu className="h-5 w-5" />
             </button>
           </div>
+          </div>
+
+          {/* Mobile search row */}
+          <div className="pb-3 lg:hidden">
+            <SearchBar placeholder="Search your products, Categories…" />
+          </div>
         </div>
       </header>
 
@@ -243,9 +296,7 @@ function MobileMenu({
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
           >
             <div className="mb-6 flex items-center justify-between">
-              <span className="font-display text-lg font-bold">
-                Fresh<span className="text-primary">Harvest</span>
-              </span>
+              <Logo className="h-9" />
               <button
                 onClick={onClose}
                 className="rounded-full p-2 hover:bg-secondary"

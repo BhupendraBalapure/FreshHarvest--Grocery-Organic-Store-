@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import {
-  Leaf,
   Facebook,
   Instagram,
   Twitter,
@@ -13,6 +12,7 @@ import {
   Mail,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/brand/logo";
 import { categories } from "@/lib/data/categories";
 
 const columns = [
@@ -93,13 +93,8 @@ export function Footer() {
       {/* Main */}
       <div className="container grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-6">
         <div className="lg:col-span-2">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-              <Leaf className="h-5 w-5" />
-            </span>
-            <span className="font-display text-xl font-bold">
-              Fresh<span className="text-primary">Harvest</span>
-            </span>
+          <Link href="/">
+            <Logo className="h-12" />
           </Link>
           <p className="mt-4 max-w-xs text-sm text-muted-foreground">
             Premium farm-fresh groceries & certified organic foods, delivered to

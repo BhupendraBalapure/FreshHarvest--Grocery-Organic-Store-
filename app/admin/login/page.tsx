@@ -4,10 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Leaf, Mail, Lock, Eye, EyeOff, ArrowRight, ShieldCheck } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ArrowRight, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth, ADMIN_CREDENTIALS } from "@/store/auth";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/brand/logo";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -53,13 +54,8 @@ export default function AdminLoginPage() {
         className="relative w-full max-w-md"
       >
         <div className="mb-6 text-center">
-          <Link href="/" className="inline-flex items-center gap-2">
-            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-glow">
-              <Leaf className="h-6 w-6" />
-            </span>
-            <span className="font-display text-2xl font-bold">
-              Fresh<span className="text-primary">Harvest</span>
-            </span>
+          <Link href="/" className="inline-flex">
+            <Logo className="h-14" />
           </Link>
         </div>
 
