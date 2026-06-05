@@ -107,7 +107,7 @@ export function SearchBar({
       {/* Input */}
       <div
         className={cn(
-          "flex h-11 items-center gap-2 rounded-full border bg-secondary/50 pl-4 pr-2 transition-all",
+          "flex h-9 items-center gap-2 rounded-full border bg-secondary/50 pl-4 pr-2 transition-all sm:h-11",
           open
             ? "border-primary bg-background ring-2 ring-primary/20"
             : "border-border",

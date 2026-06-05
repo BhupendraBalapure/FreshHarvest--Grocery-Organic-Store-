@@ -29,11 +29,11 @@ export function Hero() {
             <motion.div key={c.id} variants={staggerItem}>
               <Link
                 href={`/shop?category=${c.slug}`}
-                className="group flex h-[72px] items-center gap-3 rounded-2xl border border-border bg-card px-3 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:bg-primary-soft/60 hover:shadow-soft-lg"
+                className="group flex h-14 items-center gap-2.5 rounded-2xl border border-border bg-card px-2.5 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:bg-primary-soft/60 hover:shadow-soft-lg sm:h-[72px] sm:gap-3 sm:px-3"
               >
                 <span
                   className={cn(
-                    "grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br text-xl ring-1 ring-inset ring-black/5 transition-transform duration-300 group-hover:scale-110 dark:ring-white/10",
+                    "grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-base ring-1 ring-inset ring-black/5 transition-transform duration-300 group-hover:scale-110 dark:ring-white/10 sm:h-11 sm:w-11 sm:rounded-2xl sm:text-xl",
                     c.accent,
                   )}
                 >

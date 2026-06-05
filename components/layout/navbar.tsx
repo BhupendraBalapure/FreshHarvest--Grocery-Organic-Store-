@@ -106,7 +106,7 @@ export function Navbar() {
             </button>
 
             <Link href="/" className="shrink-0" aria-label="FreshHarvest home">
-              <Logo className="h-9" priority />
+              <Logo className="h-11" priority />
             </Link>
 
             <div className="ml-auto flex items-center gap-2">
@@ -138,7 +138,7 @@ export function Navbar() {
           <div className="hidden h-16 items-center gap-3 lg:flex lg:h-20 lg:gap-6">
           {/* Logo */}
           <Link href="/" className="shrink-0">
-            <Logo className="h-9 lg:h-11" priority />
+            <Logo className="h-11 lg:h-16" priority />
           </Link>
 
           {/* Categories dropdown */}
@@ -287,7 +287,7 @@ function MobileMenu({
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
           >
             <div className="mb-6 flex items-center justify-between">
-              <Logo className="h-9" />
+              <Logo className="h-11" />
               <button
                 onClick={onClose}
                 className="rounded-full p-2 hover:bg-secondary"

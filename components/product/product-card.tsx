@@ -3,16 +3,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Heart, Plus, Leaf, Zap } from "lucide-react";
+import { Heart, Plus, Leaf, Zap, Star, MapPin } from "lucide-react";
 import { toast } from "sonner";
 import type { Product } from "@/lib/types";
 import { cn, formatPrice, discountPercent } from "@/lib/utils";
+import { categoryBySlug } from "@/lib/data/categories";
 import { useCart } from "@/store/cart";
 import { useWishlist } from "@/store/wishlist";
 import { useUI } from "@/store/ui";
-import { StarRating } from "@/components/shared/star-rating";
-import { Badge } from "@/components/ui/badge";
 import { staggerItem } from "@/lib/motion";
+
+/** 1284 → "1.3k", 942 → "942" */
+function compactCount(n: number) {
+  return n >= 1000 ? `${(n / 1000).toFixed(1).replace(/\.0$/, "")}k` : `${n}`;
+}
 
 const badgeLabels: Record<string, { label: string; className: string }> = {
   bestseller: { label: "Bestseller", className: "bg-accent text-accent-foreground" },
@@ -38,6 +42,7 @@ export function ProductCard({
 
   const off = discountPercent(product.price, product.salePrice);
   const topBadge = product.badges.find((b) => badgeLabels[b]);
+  const categoryIcon = categoryBySlug[product.category]?.icon ?? "🛒";
 
   function handleAdd(e: React.MouseEvent) {
     e.preventDefault();
@@ -64,7 +69,14 @@ export function ProductCard({
         className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft-lg"
       >
         {/* Image */}
-        <div className="relative aspect-square overflow-hidden bg-secondary/40">
+        <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-secondary/60 to-secondary/20">
+          {/* emoji placeholder shown behind the photo (visible if the image fails) */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0 grid place-items-center text-5xl opacity-30 select-none"
+          >
+            {categoryIcon}
+          </span>
           <Image
             src={product.images[0]}
             alt={product.name}
@@ -115,30 +127,45 @@ export function ProductCard({
         </div>
 
         {/* Body */}
-        <div className="flex flex-1 flex-col p-4">
-          <div className="mb-1 flex items-center justify-between gap-2">
-            <span className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+        <div className="flex flex-1 flex-col p-3.5">
+          {/* rating chip + unit */}
+          <div className="mb-1.5 flex items-center justify-between gap-2">
+            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
+              <span className="inline-flex items-center gap-0.5 rounded-md bg-success/10 px-1.5 py-0.5 font-bold text-success">
+                <Star className="h-3 w-3 fill-success text-success" />
+                {product.rating.toFixed(1)}
+              </span>
+              ({compactCount(product.reviewCount)})
+            </span>
+            <span className="shrink-0 whitespace-nowrap rounded-md bg-secondary px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
               {product.unit}
             </span>
-            <StarRating rating={product.rating} showValue />
           </div>
 
-          <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-foreground">
+          <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-foreground transition-colors group-hover:text-primary">
             {product.name}
           </h3>
 
           <p className="mt-1 line-clamp-1 text-xs text-muted-foreground">
+            <MapPin className="mr-0.5 inline h-3 w-3 -translate-y-px" />
             {product.origin}
           </p>
 
-          <div className="mt-3 flex items-end justify-between">
-            <div className="flex items-baseline gap-1.5">
-              <span className="font-display text-lg font-bold text-foreground">
-                {formatPrice(product.salePrice ?? product.price)}
-              </span>
-              {product.salePrice && (
-                <span className="text-xs text-muted-foreground line-through">
-                  {formatPrice(product.price)}
+          <div className="mt-auto flex items-end justify-between gap-2 pt-3">
+            <div className="flex min-w-0 flex-col">
+              <div className="flex items-baseline gap-1.5">
+                <span className="font-display text-lg font-bold text-foreground">
+                  {formatPrice(product.salePrice ?? product.price)}
+                </span>
+                {product.salePrice && (
+                  <span className="text-xs text-muted-foreground line-through">
+                    {formatPrice(product.price)}
+                  </span>
+                )}
+              </div>
+              {off > 0 && (
+                <span className="text-[11px] font-semibold text-success">
+                  Save {formatPrice(product.price - (product.salePrice ?? product.price))}
                 </span>
               )}
             </div>
@@ -146,9 +173,9 @@ export function ProductCard({
             <button
               onClick={handleAdd}
               aria-label="Add to cart"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-glow-sm transition-all hover:scale-110 hover:shadow-glow active:scale-95"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-glow-sm transition-all hover:scale-110 hover:shadow-glow active:scale-95"
             >
-              <Plus className="h-4 w-4" />
+              <Plus className="h-5 w-5" />
             </button>
           </div>
         </div>

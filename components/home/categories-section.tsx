@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
@@ -24,36 +25,39 @@ export function CategoriesSection() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
+          className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4"
         >
           {categories.map((c) => (
             <motion.div key={c.id} variants={staggerItem}>
               <Link
                 href={`/shop?category=${c.slug}`}
                 className={cn(
-                  "group relative flex min-h-[150px] flex-col justify-between overflow-hidden rounded-2xl border border-border bg-gradient-to-br p-4 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft-lg sm:p-5",
+                  "group relative flex min-h-[128px] flex-col items-center justify-center gap-2.5 overflow-hidden rounded-2xl border border-border bg-gradient-to-br p-4 text-center shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-soft-lg sm:min-h-[152px] sm:gap-3",
                   c.accent,
                 )}
               >
-                {/* count chip */}
-                <span className="absolute right-3 top-3 rounded-full bg-background/70 px-2 py-0.5 text-[11px] font-bold text-foreground/70 ring-1 ring-border backdrop-blur-sm">
-                  {c.productCount} items
-                </span>
+                {/* hover affordance */}
+                <ArrowRight className="absolute right-3 top-3 h-4 w-4 text-foreground/25 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-primary" />
 
-                {/* emoji */}
-                <span className="grid h-14 w-14 place-items-center rounded-2xl bg-background/80 text-3xl shadow-sm ring-1 ring-white/50 transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-110">
-                  {c.icon}
+                {/* round photo — emoji shows behind if the photo fails */}
+                <span className="relative grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-full bg-background/80 text-2xl shadow-sm ring-2 ring-white/70 transition-transform duration-300 group-hover:scale-105 sm:h-[68px] sm:w-[68px] sm:text-3xl">
+                  <span aria-hidden>{c.icon}</span>
+                  <Image
+                    src={c.image}
+                    alt={c.name}
+                    fill
+                    sizes="68px"
+                    className="object-cover"
+                  />
                 </span>
 
                 <div className="min-w-0">
-                  <h3 className="font-display text-base font-bold text-foreground sm:text-lg">
+                  <h3 className="font-display text-sm font-bold leading-tight text-foreground sm:text-base">
                     {c.name}
                   </h3>
-                  {/* hover Shop arrow (reserves its own line) */}
-                  <span className="mt-0.5 flex items-center gap-1 text-xs font-semibold text-primary opacity-0 transition-all duration-300 group-hover:opacity-100">
-                    Shop
-                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-                  </span>
+                  <p className="mt-0.5 text-[11px] font-medium text-muted-foreground sm:text-xs">
+                    {c.productCount} items
+                  </p>
                 </div>
               </Link>
             </motion.div>
