@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import { categories } from "@/lib/data/categories";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { staggerContainer, staggerItem } from "@/lib/motion";
@@ -30,30 +30,30 @@ export function CategoriesSection() {
             <motion.div key={c.id} variants={staggerItem}>
               <Link
                 href={`/shop?category=${c.slug}`}
-                className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden rounded-2xl border border-border p-4 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft-lg"
+                className={cn(
+                  "group relative flex min-h-[150px] flex-col justify-between overflow-hidden rounded-2xl border border-border bg-gradient-to-br p-4 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:shadow-soft-lg sm:p-5",
+                  c.accent,
+                )}
               >
-                <Image
-                  src={c.image}
-                  alt={c.name}
-                  fill
-                  sizes="(max-width:640px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div
-                  className={cn(
-                    "absolute inset-0 bg-gradient-to-t from-accent/85 via-accent/30 to-transparent",
-                  )}
-                />
-                <div className="relative">
-                  <span className="mb-1 inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/90 text-lg shadow-sm">
-                    {c.icon}
-                  </span>
-                  <h3 className="font-display text-lg font-bold text-white">
+                {/* count chip */}
+                <span className="absolute right-3 top-3 rounded-full bg-background/70 px-2 py-0.5 text-[11px] font-bold text-foreground/70 ring-1 ring-border backdrop-blur-sm">
+                  {c.productCount} items
+                </span>
+
+                {/* emoji */}
+                <span className="grid h-14 w-14 place-items-center rounded-2xl bg-background/80 text-3xl shadow-sm ring-1 ring-white/50 transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-110">
+                  {c.icon}
+                </span>
+
+                <div className="min-w-0">
+                  <h3 className="font-display text-base font-bold text-foreground sm:text-lg">
                     {c.name}
                   </h3>
-                  <p className="text-xs text-white/80">
-                    {c.productCount} products
-                  </p>
+                  {/* hover Shop arrow (reserves its own line) */}
+                  <span className="mt-0.5 flex items-center gap-1 text-xs font-semibold text-primary opacity-0 transition-all duration-300 group-hover:opacity-100">
+                    Shop
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </span>
                 </div>
               </Link>
             </motion.div>

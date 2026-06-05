@@ -23,7 +23,7 @@ import {
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
-import { LogoMark } from "@/components/brand/logo";
+import { Logo } from "@/components/brand/logo";
 import { useAuth } from "@/store/auth";
 
 const nav = [
@@ -54,16 +54,14 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   const SidebarContent = (
     <div className="flex h-full flex-col">
-      <Link href="/admin" className="flex items-center gap-2.5 px-5 py-5">
-        <LogoMark className="h-10 w-10" />
-        <div className="leading-tight">
-          <span className="block font-display text-lg font-bold">
-            Fresh<span className="text-primary">Harvest</span>
-          </span>
-          <span className="block text-[11px] text-muted-foreground">
-            Seller Hub
-          </span>
-        </div>
+      <Link
+        href="/admin"
+        className="flex flex-col items-start gap-1 px-5 py-5"
+      >
+        <Logo className="h-8" />
+        <span className="block pl-0.5 text-[11px] font-medium text-muted-foreground">
+          Seller Hub
+        </span>
       </Link>
 
       <nav className="flex-1 space-y-1 px-3">

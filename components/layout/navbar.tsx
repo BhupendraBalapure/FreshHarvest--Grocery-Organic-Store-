@@ -105,18 +105,9 @@ export function Navbar() {
               <Menu className="h-5 w-5" />
             </button>
 
-            <button type="button" className="flex min-w-0 items-center gap-1.5 text-left">
-              <MapPin className="h-5 w-5 shrink-0 text-primary" />
-              <span className="min-w-0 leading-tight">
-                <span className="block text-[11px] text-muted-foreground">
-                  Delivery to
-                </span>
-                <span className="flex items-center gap-1 text-sm font-bold">
-                  <span className="truncate">Mumbai 400001</span>
-                  <ChevronDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-                </span>
-              </span>
-            </button>
+            <Link href="/" className="shrink-0" aria-label="FreshHarvest home">
+              <Logo className="h-9" priority />
+            </Link>
 
             <div className="ml-auto flex items-center gap-2">
               <button

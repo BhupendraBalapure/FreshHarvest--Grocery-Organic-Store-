@@ -2,10 +2,14 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /**
- * FreshHarvest brand logo (custom artwork).
- * The wordmark text is dark, so the artwork keeps its light background and
- * sits on a subtly rounded chip — seamless on light surfaces, a clean white
- * card on dark surfaces.
+ * FreshHarvest full lockup (emblem + wordmark + tagline). Two PNG variants are
+ * rendered and toggled purely with CSS so it works without a JS theme read (no
+ * hydration flash):
+ *  - light mode → dark charcoal wordmark   (logo-custom.png)
+ *  - dark mode  → white wordmark           (logo-custom-dark.png)
+ *
+ * logo-custom-dark.png is derived from logo-custom.png by recoloring the dark
+ * wordmark text to near-white and brightening the tagline for dark backgrounds.
  */
 export function Logo({
   className,
@@ -18,11 +22,19 @@ export function Logo({
     <span className={cn("inline-flex h-10 items-center", className)}>
       <Image
         src="/brand/logo-custom.png"
-        alt="FreshHarvest — Eat Fresh, Live Healthy"
-        width={1177}
-        height={435}
+        alt="FreshHarvest"
+        width={822}
+        height={303}
         priority={priority}
-        className="h-full w-auto select-none rounded-md dark:bg-white dark:px-1.5 dark:py-0.5"
+        className="h-full w-auto select-none dark:hidden"
+      />
+      <Image
+        src="/brand/logo-custom-dark.png"
+        alt="FreshHarvest"
+        width={822}
+        height={303}
+        priority={priority}
+        className="hidden h-full w-auto select-none dark:block"
       />
     </span>
   );
